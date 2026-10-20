@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thiệp 20/10 gửi dì</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-top: #dff3ef;
+  --bg-bottom: #fff1e8;
+  --ink: #12343b;
+  --soft: #4d6f75;
+  --teal: #0f6b6b;
+  --teal-front: #158585;
+  --teal-flap: #1ba0a0;
+  --coral: #ff6f59;
+  --gold: #ffc857;
+  --paper: #fffaf2;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-top: #0b2a33;
+    --bg-bottom: #12404a;
+    --ink: #e6f4f1;
+    --soft: #9cc4c4;
+  }
+}
+:root[data-theme="dark"] {
+  --bg-top: #0b2a33;
+  --bg-bottom: #12404a;
+  --ink: #e6f4f1;
+  --soft: #9cc4c4;
+}
+html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100%;
+  background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  color: var(--ink);
+  font-family: "Be Vietnam Pro", "Segoe UI", Roboto, Arial, sans-serif;
+  overflow-x: hidden;
+}
+main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 28px 22px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+h1 {
+  font-family: "Pacifico", "Brush Script MT", cursive;
+  font-weight: 400;
+  font-size: clamp(2rem, 9vw, 2.8rem);
+  line-height: 1.25;
+  margin: 8px 0 6px;
+  color: var(--coral);
+}
+.hint { margin: 0; color: var(--soft); font-size: .95rem; transition: opacity .6s; }
+.open-state .hint { opacity: 0; }
+
+.env-btn {
+  all: unset;
+  cursor: pointer;
+  display: block;
+  width: min(82vw, 340px);
+  margin-top: 84px;
+  perspective: 900px;
+  border-radius: 12px;
+}
+.env-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 8px; }
+.env { position: relative; aspect-ratio: 3 / 2; filter: drop-shadow(0 14px 22px rgba(0, 0, 0, .22)); }
+.layer { position: absolute; inset: 0; }
+.back { background: var(--teal); border-radius: 12px; }
+.mini {
+  position: absolute;
+  left: 9%; right: 9%; top: 10%; bottom: 10%;
+  background: var(--paper);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 14px;
+  gap: 4px;
+  transition: transform 1s cubic-bezier(.3, .8, .3, 1) .6s;
+}
+.mini b { font-family: "Pacifico", cursive; font-weight: 400; color: var(--teal); font-size: 1.25rem; }
+.mini i { font-style: normal; color: var(--coral); font-size: 1.6rem; line-height: 1; }
+.open-state .mini { transform: translateY(-42%); }
+.front {
+  background: var(--teal-front);
+  border-radius: 0 0 12px 12px;
+  clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+}
+.flap {
+  background: var(--teal-flap);
+  clip-path: polygon(0 0, 100% 0, 50% 56%);
+  transform-origin: 50% 0;
+  z-index: 3;
+  transition: transform .9s ease, z-index 0s linear .45s;
+}
+.open-state .flap { transform: rotateX(180deg); z-index: 0; }
+.seal {
+  position: absolute;
+  left: 50%; top: 52%;
+  width: 46px; height: 46px;
+  margin: -23px 0 0 -23px;
+  border-radius: 50%;
+  background: var(--coral);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  z-index: 4;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+  transition: transform .5s ease, opacity .5s ease;
+}
+.open-state .seal { transform: scale(.2); opacity: 0; }
+
+.letter {
+  margin-top: 26px;
+  padding: 28px 24px;
+  border-radius: 18px;
+  background: var(--paper);
+  color: #12343b;
+  border-top: 6px solid var(--coral);
+  text-align: left;
+  line-height: 1.75;
+  font-size: 1.05rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(18px);
+  transition: opacity 1s ease 1.5s, transform 1s ease 1.5s, visibility 0s linear 1.5s;
+}
+.open-state .letter { opacity: 1; visibility: visible; transform: none; }
+.letter p { margin: 0 0 14px; }
+.letter .to { font-family: "Pacifico", cursive; font-size: 1.35rem; color: var(--teal); margin-bottom: 12px; }
+.letter .from { margin: 18px 0 0; text-align: right; font-family: "Pacifico", cursive; font-size: 1.2rem; color: var(--coral); }
+
+.conf {
+  position: fixed;
+  top: -20px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+  animation: confall var(--d) ease-in var(--w) 1 forwards;
+}
+@keyframes confall {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  100% { transform: translate(var(--x), 110vh) rotate(720deg); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mini, .flap, .seal, .letter { transition-duration: .01s; transition-delay: 0s; }
+  .conf { display: none; }
+}
+</style>
+</head>
+<body>
+<main id="app">
+  <h1>Chúc mừng 20/10</h1>
+  <p class="hint" id="hint">Chạm vào phong bì để mở thiệp</p>
+
+  <button class="env-btn" id="env" type="button" aria-label="Mở thiệp" aria-expanded="false">
+    <div class="env">
+      <div class="layer back"></div>
+      <div class="mini"><b id="mini-to"></b><i>&#9829;</i></div>
+      <div class="layer front"></div>
+      <div class="layer flap"></div>
+      <div class="seal">&#9829;</div>
+    </div>
+  </button>
+
+  <section class="letter" id="letter" aria-live="polite">
+    <p class="to" id="to"></p>
+    <div id="body"></div>
+    <p class="from" id="from"></p>
+  </section>
+</main>
+
+<script>
+// Sửa nội dung thiệp ở đây
+var CONFIG = {
+  to: "Gửi dì yêu quý,",
+  paragraphs: [
+    "Nhân ngày 20-10 cháu chúc dì luôn mạnh khỏe, xinh đẹp, trẻ trung, lúc nào cũng vui vẻ và hạnh phúc.",
+    "Nhân ngày 20-10 cháu chúc dì luôn mạnh khỏe, xinh đẹp, trẻ trung, lúc nào cũng vui vẻ và hạnh phúc. Chúc dì luôn gặp nhiều may mắn, công việc thuận lợi, mọi điều như ý và luôn được mọi người yêu thương. Mong dì lúc nào cũng rạng rỡ, nở nụ cười thật tươi và có thật nhiều niềm vui trong cuộc sống ạ!"
+  ],
+};
+
+document.getElementById("to").textContent = CONFIG.to;
+document.getElementById("mini-to").textContent = "Gửi dì";
+document.getElementById("from").textContent = CONFIG.from;
+var body = document.getElementById("body");
+CONFIG.paragraphs.forEach(function (t) {
+  var p = document.createElement("p");
+  p.textContent = t;
+  body.appendChild(p);
+});
+
+var app = document.getElementById("app");
+var env = document.getElementById("env");
+var COLORS = ["#ff6f59", "#ffc857", "#1ba0a0", "#8fd6c8", "#ff9f8f"];
+
+function confetti(n) {
+  for (var i = 0; i < n; i++) {
+    var c = document.createElement("span");
+    c.className = "conf";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.width = (6 + Math.random() * 5) + "px";
+    c.style.height = (10 + Math.random() * 7) + "px";
+    c.style.background = COLORS[Math.floor(Math.random() * COLORS.length)];
+    c.style.setProperty("--x", (Math.random() * 160 - 80) + "px");
+    c.style.setProperty("--d", (3 + Math.random() * 2.5) + "s");
+    c.style.setProperty("--w", (Math.random() * .8) + "s");
+    document.body.appendChild(c);
+    c.addEventListener("animationend", function (e) { e.target.remove(); });
+  }
+}
+
+env.addEventListener("click", function () {
+  if (app.classList.contains("open-state")) {
+    confetti(30);
+    return;
+  }
+  app.classList.add("open-state");
+  env.setAttribute("aria-expanded", "true");
+  env.setAttribute("aria-label", "Thiệp đã mở, chạm để thêm pháo giấy");
+  confetti(50);
+  setTimeout(function () {
+    document.getElementById("letter").scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 1800);
+});
+</script>
+</body>
+</html>
